@@ -22,7 +22,14 @@ document.addEventListener("DOMContentLoaded", function(e) {
 							this.queens.splice(index, 1);
 						}
 					})
-					this.currentLevel = instruction.level;
+
+					const queensOnBoard = board.selectAll('circle')
+							.data(this.queens)
+
+					queensOnBoard.exit().remove()
+
+					debugger;
+
 					this.row
 						.transition()
 						.duration(200)

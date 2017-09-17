@@ -1,0 +1,10 @@
+.board {
+	background: black;
+	height: 400px;
+	width: 400px;
+}
+
+.queen {
+	fill: white;
+	r: 20;
+}

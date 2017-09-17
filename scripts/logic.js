@@ -81,9 +81,7 @@
           break;
         }
         increment = false;
-        // debugger
         while (!solution[i]['LEVEL']) {
-          // increment = true;
           for (let key of Object.keys(solution[i])){
             level[key] = solution[i][key];
           }
@@ -91,7 +89,6 @@
             i++;
           }
         }
-        // i--;
         flattened.push(level)
       }
       if (increment) {
@@ -101,9 +98,7 @@
       }
     }
 
-    console.log(flattened)
-
-    return solution;
+    return flattened;
   };
 
   global.countNQueensSolutions = countNQueensSolutions;

@@ -19,7 +19,7 @@
       //All columns are occupied,
       //so the solution must be complete
       if (col === done) {
-        solution.push('!' + done + '!');
+        solution.push({STATUS: '!' + done + '!'});
         count++;
         return;
       }
@@ -65,7 +65,43 @@
       }
     };
 
-      innerRecurse(0,0,0);
+    innerRecurse(0,0,0);
+
+    const flattened = [];
+
+    let i = 0;
+    let increment = true;
+
+    while (i < solution.length) {
+      if (solution[i]['LEVEL']) {
+        var level = {level: solution[i]['LEVEL']};
+
+        i++;
+        if (i === solution.length) {
+          break;
+        }
+        increment = false;
+        // debugger
+        while (!solution[i]['LEVEL']) {
+          // increment = true;
+          for (let key of Object.keys(solution[i])){
+            level[key] = solution[i][key];
+          }
+          if (i < solution.length - 1) {
+            i++;
+          }
+        }
+        // i--;
+        flattened.push(level)
+      }
+      if (increment) {
+        i++;
+      } else {
+        increment = true;
+      }
+    }
+
+    console.log(flattened)
 
     return solution;
   };

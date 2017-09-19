@@ -35,14 +35,14 @@ const leftDiagonalSpots = require('./leftDiagonalSpots');
 							.attr('x', d => d.x)
 							.attr('y', d => d.y);
 
-	   			this.leftDiagonal = this.board
-	   									.append('rect')
-	   									.attr('class', 'row leftDiagonal')
-	   									.attr('width', 100 * n)
-	   			this.rightDiagonal = this.board
-	   									.append('rect')
-	   									.attr('class', 'row rightDiagonal')
-	   									.attr('width', 100 * n)
+					// 		this.leftDiagonal = this.board
+	   		// 							.append('rect')
+	   		// 							.attr('class', 'row leftDiagonal')
+	   		// 							.attr('width', 100 * n)
+					// 		this.rightDiagonal = this.board
+	   		// 							.append('rect')
+	   		// 							.attr('class', 'row rightDiagonal')
+	   		// 							.attr('width', 100 * n)
 
 	   			this.row = this.board.append('rect')
 	   				  .attr('y', '0')
@@ -61,7 +61,7 @@ const leftDiagonalSpots = require('./leftDiagonalSpots');
 
 						leftDiagonalSpots.call(this, instruction, nextInstruction);
 
-					  queens.call(this, instruction);
+					  queens.call(this, instruction, nextInstruction);
 
 						step++;
 

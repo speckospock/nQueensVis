@@ -4,8 +4,16 @@ module.exports = function(instruction, nextInstruction) {
       .exit()
       .remove()
 
+  let data = [];
+
+  if (nextInstruction.level > instruction.level && instruction.end) {
+    data = instruction.end.rd.reverse()
+  } else if (nextInstruction.level < instruction.level && instruction.start) {
+    data = instruction.start.rd.reverse()
+  }
+
   let enter = this.leftDiagonalSpots
-    .data(instruction.end ? instruction.end.rd.reverse() : [])
+    .data(data)
       .enter()
       .append('circle')
 

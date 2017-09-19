@@ -104,14 +104,14 @@ const leftDiagonalSpots = __webpack_require__(3);
 							.attr('x', d => d.x)
 							.attr('y', d => d.y);
 
-	   			this.leftDiagonal = this.board
-	   									.append('rect')
-	   									.attr('class', 'row leftDiagonal')
-	   									.attr('width', 100 * n)
-	   			this.rightDiagonal = this.board
-	   									.append('rect')
-	   									.attr('class', 'row rightDiagonal')
-	   									.attr('width', 100 * n)
+					// 		this.leftDiagonal = this.board
+	   		// 							.append('rect')
+	   		// 							.attr('class', 'row leftDiagonal')
+	   		// 							.attr('width', 100 * n)
+					// 		this.rightDiagonal = this.board
+	   		// 							.append('rect')
+	   		// 							.attr('class', 'row rightDiagonal')
+	   		// 							.attr('width', 100 * n)
 
 	   			this.row = this.board.append('rect')
 	   				  .attr('y', '0')
@@ -130,7 +130,7 @@ const leftDiagonalSpots = __webpack_require__(3);
 
 						leftDiagonalSpots.call(this, instruction, nextInstruction);
 
-					  queens.call(this, instruction);
+					  queens.call(this, instruction, nextInstruction);
 
 						step++;
 
@@ -261,20 +261,30 @@ module.exports = countNQueensSolutions;
 /* 2 */
 /***/ (function(module, exports) {
 
-module.exports = function(instruction) {
-  	this.queens.push(instruction);
+module.exports = function(instruction, nextInstruction) {
+    if (instruction.bit !== undefined) {
+      this.queens.push(instruction);
+    }
+
+    this.queens = this.queens.filter(q => q.level < nextInstruction.level );;
+    // debugger
   	const queensOnBoard = this.board.selectAll('.queen')
-  		.data(this.queens)
+  		.data(this.queens);
 
-  	queensOnBoard.exit()
-  			.remove()
+    this.board.selectAll('.none').data([]).exit().remove();
 
-  	queensOnBoard
-  		.enter()
-  			.append('circle')
-  			.attr('class', 'queen')
-  			.attr('cy', data => (data.level - 1) * 100 + 50)
-  			.attr('cx', data => data.bit * 100 + 50)
+    queensOnBoard
+      .exit()
+      .remove();
+
+    // if (instruction.bit) {
+      queensOnBoard
+        .enter()
+        .append('circle')
+          .attr('class', 'queen')
+          .attr('cy', data => (data.level - 1) * 100 + 50)
+          .attr('cx', data => data.bit * 100 + 50);
+    // }
 }
 
 
@@ -288,8 +298,16 @@ module.exports = function(instruction, nextInstruction) {
       .exit()
       .remove()
 
+  let data = [];
+
+  if (nextInstruction.level > instruction.level && instruction.end) {
+    data = instruction.end.rd.reverse()
+  } else if (nextInstruction.level < instruction.level && instruction.start) {
+    data = instruction.start.rd.reverse()
+  }
+
   let enter = this.leftDiagonalSpots
-    .data(instruction.end ? instruction.end.rd.reverse() : [])
+    .data(data)
       .enter()
       .append('circle')
 

@@ -1,0 +1,7 @@
+D3
+Breaking up code into modules, separation of concern
+Webpack for module exports
+ES6 syntax, (mention also loosing context when module.exports)
+ES6 classes
+call()
+Interval

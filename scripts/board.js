@@ -1,7 +1,8 @@
 const countNQueensSolutions = require('./logic');
+const queens = require('./queens');
+const leftDiagonalSpots = require('./leftDiagonalSpots');
 
 ((global) => {
-
 
 	document.addEventListener("DOMContentLoaded", function(e) {
 
@@ -58,26 +59,9 @@ const countNQueensSolutions = require('./logic');
 						const instruction = this.playBook[step];
 						const nextInstruction = this.playBook[step + 1];
 
-						this.board.selectAll('.ldSpots')
-							.data([])
-								.exit()
-								.remove()
+						leftDiagonalSpots.call(this, instruction, nextInstruction);
 
-						let enter = this.leftDiagonalSpots
-							.data(instruction.end ? instruction.end.rd.reverse() : [])
-								.enter()
-								.append('circle')
-
-						enter
-									.attr('class', d => d === '1' ? 'ldSpots' : 'none')
-									.attr('cx', (d, i) => i * 100 + 50)
-									.attr('cy', (instruction.level - 1) * 100 + 50)
-
-						enter
-								.transition()
-								.duration(1000)
-									.attr('cx', (d, i) => instruction.level < nextInstruction.level ? (i + 1) * 100 + 50 : (i - 1) * 100 + 50)
-									.attr('cy', instruction.level < nextInstruction.level ? instruction.level * 100 + 50 : (instruction.level - 2) * 100 + 50);
+					  queens.call(this, instruction);
 
 						step++;
 

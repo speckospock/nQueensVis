@@ -68,9 +68,10 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 const countNQueensSolutions = __webpack_require__(1);
+const queens = __webpack_require__(2);
+const leftDiagonalSpots = __webpack_require__(3);
 
 ((global) => {
-
 
 	document.addEventListener("DOMContentLoaded", function(e) {
 
@@ -127,26 +128,9 @@ const countNQueensSolutions = __webpack_require__(1);
 						const instruction = this.playBook[step];
 						const nextInstruction = this.playBook[step + 1];
 
-						this.board.selectAll('.ldSpots')
-							.data([])
-								.exit()
-								.remove()
+						leftDiagonalSpots.call(this, instruction, nextInstruction);
 
-						let enter = this.leftDiagonalSpots
-							.data(instruction.end ? instruction.end.rd.reverse() : [])
-								.enter()
-								.append('circle')
-
-						enter
-									.attr('class', d => d === '1' ? 'ldSpots' : 'none')
-									.attr('cx', (d, i) => i * 100 + 50)
-									.attr('cy', (instruction.level - 1) * 100 + 50)
-
-						enter
-								.transition()
-								.duration(1000)
-									.attr('cx', (d, i) => instruction.level < nextInstruction.level ? (i + 1) * 100 + 50 : (i - 1) * 100 + 50)
-									.attr('cy', instruction.level < nextInstruction.level ? instruction.level * 100 + 50 : (instruction.level - 2) * 100 + 50);
+					  queens.call(this, instruction);
 
 						step++;
 
@@ -272,6 +256,55 @@ const convertBaseTenToBinary = (...args) => {
 };
 
 module.exports = countNQueensSolutions;
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports) {
+
+module.exports = function(instruction) {
+  	this.queens.push(instruction);
+  	const queensOnBoard = this.board.selectAll('.queen')
+  		.data(this.queens)
+
+  	queensOnBoard.exit()
+  			.remove()
+
+  	queensOnBoard
+  		.enter()
+  			.append('circle')
+  			.attr('class', 'queen')
+  			.attr('cy', data => (data.level - 1) * 100 + 50)
+  			.attr('cx', data => data.bit * 100 + 50)
+}
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports) {
+
+module.exports = function(instruction, nextInstruction) {
+  this.board.selectAll('.ldSpots')
+    .data([])
+      .exit()
+      .remove()
+
+  let enter = this.leftDiagonalSpots
+    .data(instruction.end ? instruction.end.rd.reverse() : [])
+      .enter()
+      .append('circle')
+
+  enter
+        .attr('class', d => d === '1' ? 'ldSpots' : 'none')
+        .attr('cx', (d, i) => i * 100 + 50)
+        .attr('cy', (instruction.level - 1) * 100 + 50)
+
+  enter
+      .transition()
+      .duration(1000)
+        .attr('cx', (d, i) => instruction.level < nextInstruction.level ? (i + 1) * 100 + 50 : (i - 1) * 100 + 50)
+        .attr('cy', instruction.level < nextInstruction.level ? instruction.level * 100 + 50 : (instruction.level - 2) * 100 + 50);
+}
+
 
 /***/ })
 /******/ ]);

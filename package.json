@@ -4,11 +4,13 @@
   "description": "visulaizaion of bitwise n queens ",
   "main": "index.js",
   "scripts": {
+    "start": "webpack -w",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Anuar AZ",
   "license": "ISC",
   "dependencies": {
-    "d3": "^4.10.2"
+    "d3": "^4.10.2",
+    "webpack": "^3.6.0"
   }
 }

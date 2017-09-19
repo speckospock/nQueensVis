@@ -4,7 +4,7 @@
 
 .queen {
 	fill: white;
-	r: 20	;
+	r: 20;
 }
 
 .block {
@@ -14,9 +14,24 @@
 }
 
 .row {
-	stroke: black;
-	fill: green;
-	opacity: 0.3;
+	opacity: 0.5;
 	stroke-width: 10;
 	height: 100;
+}
+
+.column {
+	stroke: black;
+	fill: green;
+}
+.leftDiagoanl {
+	fill: yellow;
+}
+
+.rightDiagonal {
+	fill: purple;
+}
+
+.ldSpots {
+	fill: black;
+	r: 20;
 }

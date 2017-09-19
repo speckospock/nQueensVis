@@ -1,87 +1,93 @@
-document.addEventListener("DOMContentLoaded", function(e) {
-   	const board = d3.select('#board').append('svg').attr('class', 'board');
-   	const whites = [];
+const countNQueensSolutions = require('./logic');
 
-   	class NQueenVis {
-   		constructor(n){
-   			this.size = n;
-   			this.queens = [];
-   			this.playBook = countNQueensSolutions(n);
-   			this.currentLevel = 1;
-			board.attr('width', 100 * n).attr('height', 100 * n);
+((global) => {
 
-			for (let r = 0; r < n; r++) {
-				for (let c = 0; c < n; c++) {
-					if ( (r + c)%2) {
-						whites.push({x: r * 100, y: c * 100});
-					}
-				}
-			}
 
-			board.selectAll('.block')
-				.data(whites)
-				.enter()
-				.append('rect')
-				.attr('class', 'block')
-				.attr('x', d => d.x)
-				.attr('y', d => d.y);
+	document.addEventListener("DOMContentLoaded", function(e) {
 
-   			this.row = board.append('rect')
-   				   	.attr('y', '0')
-				   	.attr('width', 100 * n)
-				   	.attr('class', 'row')
+	   	class NQueenVis {
+	   		constructor(n){
+					this.playBook = countNQueensSolutions(n);
+	   			this.board = d3.select('#board')
+	   				.append('svg')
+	   					.attr('class', 'board')
+	   					.attr('width', 100 * n)
+	   					.attr('height', 100 * n);
+	   			this.queens = [];
+					this.queensOnBoard = this.board.selectAll('.queen');
+	   			this.currentLevel = 1;
+	   			this.whites = []; // draws white blocks on board
 
-   		}
-
-   		play() {
-   			this.playBook.forEach((instruction, index) => {
-				setTimeout(() => {
-					this.queens.forEach((q, index) => {
-						if (q.level >= instruction.level){
-							this.queens.splice(index, 1);
+					for (let r = 0; r < n; r++) {
+						for (let c = 0; c < n; c++) {
+							if ( (r + c)%2) {
+								this.whites.push({x: r * 100, y: c * 100});
+							}
 						}
-					})
+					}
 
-					const queensOnBoard = board.selectAll('circle')
-							.data(this.queens)
+					this.board.selectAll('.block')
+						.data(this.whites)
+						.enter()
+						.append('rect')
+							.attr('class', 'block')
+							.attr('x', d => d.x)
+							.attr('y', d => d.y);
 
-					queensOnBoard.exit()
-							// .transition()
-							// .delay(200)
-							.remove()
+	   			this.leftDiagonal = this.board
+	   									.append('rect')
+	   									.attr('class', 'row leftDiagonal')
+	   									.attr('width', 100 * n)
+	   			this.rightDiagonal = this.board
+	   									.append('rect')
+	   									.attr('class', 'row rightDiagonal')
+	   									.attr('width', 100 * n)
 
-					debugger;
+	   			this.row = this.board.append('rect')
+	   				  .attr('y', '0')
+					   	.attr('width', 100 * n)
+					   	.attr('class', 'row')
 
-					this.row
-						.transition()
-						.duration(200)
-						.attr('y', (instruction.level - 1) * 100);
+					this.leftDiagonalSpots = this.board.selectAll('.ldSpots');
+	   		}
 
-					if (instruction.hasOwnProperty('bit')) {
-						this.queens.push(instruction);
-						const queensOnBoard = board.selectAll('circle')
-							.data(this.queens)
+	   		play() {
+					let step = 0;
 
-						queensOnBoard.exit()
-								// .transition()
-								// .delay(200)
+					const loop = setInterval(() => {
+						const instruction = this.playBook[step];
+						const nextInstruction = this.playBook[step + 1];
+
+						this.board.selectAll('.ldSpots')
+							.data([])
+								.exit()
 								.remove()
 
-						queensOnBoard
-							.enter()
+						let enter = this.leftDiagonalSpots
+							.data(instruction.end ? instruction.end.rd.reverse() : [])
+								.enter()
 								.append('circle')
+
+						enter
+									.attr('class', d => d === '1' ? 'ldSpots' : 'none')
+									.attr('cx', (d, i) => i * 100 + 50)
+									.attr('cy', (instruction.level - 1) * 100 + 50)
+
+						enter
 								.transition()
-								.delay(200)
-								.attr('class', 'queen')
-								.attr('cy', data => (data.level - 1) * 100 + 50)
-								.attr('cx', data => data.bit * 100 + 50)
+								.duration(1000)
+									.attr('cx', (d, i) => instruction.level < nextInstruction.level ? (i + 1) * 100 + 50 : (i - 1) * 100 + 50)
+									.attr('cy', instruction.level < nextInstruction.level ? instruction.level * 100 + 50 : (instruction.level - 2) * 100 + 50);
 
-					}
-				}, 1000 * index)
-   			})
-   		}
+						step++;
 
-   	}
+						if (step === this.playBook.length - 1) {
+							clearInterval(loop);
+						}
+	   			}, 2000);
+				}
+	   	}
 
-   	window.NQueenVis = NQueenVis;
-});
+	   	global.NQueenVis = NQueenVis;
+	});
+})(window)

@@ -8,6 +8,7 @@ const leftDiagonalSpots = require('./leftDiagonalSpots');
 
 	   	class NQueenVis {
 	   		constructor(n){
+					this.n = n;
 					this.playBook = countNQueensSolutions(n);
 	   			this.board = d3.select('#board')
 	   				.append('svg')
@@ -17,7 +18,8 @@ const leftDiagonalSpots = require('./leftDiagonalSpots');
 	   			this.queens = [];
 					this.queensOnBoard = this.board.selectAll('.queen');
 	   			this.currentLevel = 1;
-	   			this.whites = []; // draws white blocks on board
+	   			this.whites = [];
+					this.stack = [];
 
 					for (let r = 0; r < n; r++) {
 						for (let c = 0; c < n; c++) {
@@ -44,10 +46,10 @@ const leftDiagonalSpots = require('./leftDiagonalSpots');
 	   		// 							.attr('class', 'row rightDiagonal')
 	   		// 							.attr('width', 100 * n)
 
-	   			this.row = this.board.append('rect')
-	   				  .attr('y', '0')
-					   	.attr('width', 100 * n)
-					   	.attr('class', 'row')
+					// 		this.row = this.board.append('rect')
+	   		// 		  .attr('y', '0')
+					//    	.attr('width', 100 * n)
+					//    	.attr('class', 'row')
 
 					this.leftDiagonalSpots = this.board.selectAll('.ldSpots');
 	   		}
@@ -56,10 +58,35 @@ const leftDiagonalSpots = require('./leftDiagonalSpots');
 					let step = 0;
 
 					const loop = setInterval(() => {
-						const instruction = this.playBook[step];
+						let instruction = this.playBook[step];
 						const nextInstruction = this.playBook[step + 1];
+						const prevInstruction = this.playBook[step - 1];
 
-						leftDiagonalSpots.call(this, instruction, nextInstruction);
+						if (instruction.level < nextInstruction.level) {
+							this.stack.push(instruction);
+							// debugger
+						} else {
+							const popped = this.stack.pop()
+							// instruction.start = popped.start;
+							if (instruction.end === undefined) {
+								instruction.end = popped.end;
+							}
+							// debugger
+						}
+
+						if (instruction.STATUS === "Dead end") {
+							document.getElementById('alert').innerHTML = "Dead end";
+						} else if (instruction.STATUS === "!SOLUTION!") {
+							document.getElementById('alert').innerHTML = "Solution";
+						} else {
+							document.getElementById('alert').innerHTML = "Chilling";
+						}
+
+						document.getElementById('bit').innerHTML = instruction.bit ? instruction.bit.toString(2) : 'pending';
+						document.getElementById('start').innerHTML = instruction.start ? instruction.start : 'pending';
+						document.getElementById('end').innerHTML = instruction.end ? instruction.end : 'pending';
+
+						leftDiagonalSpots.call(this, instruction, nextInstruction, prevInstruction);
 
 					  queens.call(this, instruction, nextInstruction);
 

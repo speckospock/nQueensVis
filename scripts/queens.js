@@ -8,18 +8,18 @@ module.exports = function(instruction, nextInstruction) {
   	const queensOnBoard = this.board.selectAll('.queen')
   		.data(this.queens);
 
-    this.board.selectAll('.none').data([]).exit().remove();
+    // this.board.selectAll('.none').data([]).exit().remove();
 
     queensOnBoard
       .exit()
-      .remove();
+        .transition()
+        .delay(1000)
+        .remove();
 
-    // if (instruction.bit) {
-      queensOnBoard
-        .enter()
+    queensOnBoard
+      .enter()
         .append('circle')
           .attr('class', 'queen')
           .attr('cy', data => (data.level - 1) * 100 + 50)
           .attr('cx', data => data.bit * 100 + 50);
-    // }
 }

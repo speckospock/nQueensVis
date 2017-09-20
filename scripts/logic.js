@@ -32,13 +32,15 @@ const convertBaseTenToBinary = (...args) => {
   var innerRecurse = function(ld, col, rd, w) {
     //All columns are occupied,
     //so the solution must be complete
+
+    solution.push({LEVEL: level, start: convertBaseTenToBinary(ld, col, rd)})
+    
     if (col === done) {
-      solution.push({STATUS: '!' + done + '!'});
+      solution.push({STATUS: '!SOLUTION!'});
       count++;
       return;
     }
 
-    solution.push({LEVEL: level})
     //Gets a bit sequence with "1"s
     //whereever there is an open "slot"
     var poss = ~(ld | rd | col);
@@ -47,14 +49,14 @@ const convertBaseTenToBinary = (...args) => {
     //place to put another queen.
 
     if (! (poss & done)) {
-      solution.push({start: convertBaseTenToBinary(ld, col, rd)});
       solution.push({'STATUS': 'Dead end'} );
+      solution.push({start: convertBaseTenToBinary(ld, col, rd)});
     }
 
     while ( poss & done ) {
       var bit = poss & -poss;
       poss -= bit;
-      solution.push({start: convertBaseTenToBinary(ld, col, rd)});
+      // solution.push({start: convertBaseTenToBinary(ld, col, rd)});
 
       solution.push({bit: Math.log2(bit)});
 
@@ -63,7 +65,7 @@ const convertBaseTenToBinary = (...args) => {
 
       innerRecurse((ld|bit)>>1, col|bit, (rd|bit)<<1);
       level --;
-      solution.push({LEVEL: level});
+      solution.push({LEVEL: level, end: convertBaseTenToBinary((ld|bit), col|bit, (rd|bit))});
     }
   };
 

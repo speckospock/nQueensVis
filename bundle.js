@@ -70,6 +70,8 @@
 const countNQueensSolutions = __webpack_require__(1);
 const queens = __webpack_require__(2);
 const leftDiagonalSpots = __webpack_require__(3);
+const rightDiagonalSpots = __webpack_require__(4);
+const infoBoard = __webpack_require__(5);
 
 ((global) => {
 
@@ -133,29 +135,17 @@ const leftDiagonalSpots = __webpack_require__(3);
 
 						if (instruction.level < nextInstruction.level) {
 							this.stack.push(instruction);
-							// debugger
 						} else {
 							const popped = this.stack.pop()
-							// instruction.start = popped.start;
 							if (instruction.end === undefined) {
 								instruction.end = popped.end;
 							}
-							// debugger
 						}
 
-						if (instruction.STATUS === "Dead end") {
-							document.getElementById('alert').innerHTML = "Dead end";
-						} else if (instruction.STATUS === "!SOLUTION!") {
-							document.getElementById('alert').innerHTML = "Solution";
-						} else {
-							document.getElementById('alert').innerHTML = "Chilling";
-						}
-
-						document.getElementById('bit').innerHTML = instruction.bit ? instruction.bit.toString(2) : 'pending';
-						document.getElementById('start').innerHTML = instruction.start ? instruction.start : 'pending';
-						document.getElementById('end').innerHTML = instruction.end ? instruction.end : 'pending';
+						infoBoard(instruction);
 
 						leftDiagonalSpots.call(this, instruction, nextInstruction, prevInstruction);
+						rightDiagonalSpots.call(this, instruction, nextInstruction, prevInstruction);
 
 					  queens.call(this, instruction, nextInstruction);
 
@@ -326,40 +316,85 @@ module.exports = function(instruction, nextInstruction, prevInstruction) {
   this.board.selectAll('.ldSpots')
     .data([])
       .exit()
-      .remove()
+      .remove();
 
-  let data = [];
+  let data = instruction.end.rd;
 
   if (nextInstruction.level > instruction.level && instruction.end) {
-    data = instruction.end.rd.reverse()
-  } else {
-    data = instruction.end.rd;
+    data = instruction.end.rd.reverse();
   }
-  // else if (nextInstruction.level < instruction.level && instruction.start) {
-  //   data = instruction.start.rd.reverse()
-  // }
-  // else if (nextInstruction.level < instruction.level ) {
-  //   data = instruction.start.rd.reverse()
-  // }
 
   let enter = this.leftDiagonalSpots
     .data(data)
       .enter()
-      .append('circle')
+      .append('circle');
 
   enter
         .attr('class', d => d === '1' ? 'ldSpots' : 'none')
         .attr('cx', (d, i) => instruction.level < nextInstruction.level ? i * 100 + 50 : (i + 1) * 100 + 50)
-        .attr('cy', (instruction.level - 1) * 100 + 50)
+        .attr('cy', (instruction.level - 1) * 100 + 50);
 
-  if (instruction.level < nextInstruction.level) {
-
-  }
   enter
       .transition()
       .duration(1000)
         .attr('cx', (d, i) => instruction.level < nextInstruction.level ? (i + 1) * 100 + 50 : i * 100 + 50)
         .attr('cy', instruction.level < nextInstruction.level ? instruction.level * 100 + 50 : (instruction.level - 2) * 100 + 50);
+}
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports) {
+
+// TODO!!!
+// I am working on this!!!
+
+module.exports = function(instruction, nextInstruction, prevInstruction) {
+  this.board.selectAll('.rdSpots')
+    .data([])
+      .exit()
+      .remove();
+
+  let data = instruction.end.ld;
+
+  if (nextInstruction.level > instruction.level && instruction.end) {
+    data = instruction.end.ld.reverse();
+  }
+
+  let enter = this.leftDiagonalSpots
+    .data(data)
+      .enter()
+      .append('circle');
+
+  enter
+        .attr('class', d => d === '1' ? 'rdSpots' : 'none')
+        .attr('cx', (d, i) => instruction.level < nextInstruction.level ? i * 100 + 50 : (i + 1) * 100 + 50)
+        .attr('cy', (instruction.level - 1) * 100 + 50);
+
+  enter
+      .transition()
+      .duration(1500)
+        .attr('cx', (d, i) => instruction.level < nextInstruction.level ? (i - 1) * 100 + 50 : i * 100 + 50)
+        .attr('cy', instruction.level < nextInstruction.level ? instruction.level * 100 + 50 : (instruction.level - 2) * 100 + 50);
+}
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports) {
+
+module.exports = function(instruction) {
+  if (instruction.STATUS === "Dead end") {
+    document.getElementById('alert').innerHTML = "Dead end";
+  } else if (instruction.STATUS === "!SOLUTION!") {
+    document.getElementById('alert').innerHTML = "Solution";
+  } else {
+    document.getElementById('alert').innerHTML = "Chilling";
+  }
+
+  document.getElementById('bit').innerHTML = instruction.bit ? instruction.bit.toString(2) : 'pending';
+  document.getElementById('start').innerHTML = instruction.start ? instruction.start : 'pending';
+  document.getElementById('end').innerHTML = instruction.end ? instruction.end : 'pending';
 }
 
 

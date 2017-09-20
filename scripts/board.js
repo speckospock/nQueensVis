@@ -1,6 +1,8 @@
 const countNQueensSolutions = require('./logic');
 const queens = require('./queens');
 const leftDiagonalSpots = require('./leftDiagonalSpots');
+const rightDiagonalSpots = require('./rightDiagonalSpots');
+const infoBoard = require('./infoBoard');
 
 ((global) => {
 
@@ -64,29 +66,17 @@ const leftDiagonalSpots = require('./leftDiagonalSpots');
 
 						if (instruction.level < nextInstruction.level) {
 							this.stack.push(instruction);
-							// debugger
 						} else {
 							const popped = this.stack.pop()
-							// instruction.start = popped.start;
 							if (instruction.end === undefined) {
 								instruction.end = popped.end;
 							}
-							// debugger
 						}
 
-						if (instruction.STATUS === "Dead end") {
-							document.getElementById('alert').innerHTML = "Dead end";
-						} else if (instruction.STATUS === "!SOLUTION!") {
-							document.getElementById('alert').innerHTML = "Solution";
-						} else {
-							document.getElementById('alert').innerHTML = "Chilling";
-						}
-
-						document.getElementById('bit').innerHTML = instruction.bit ? instruction.bit.toString(2) : 'pending';
-						document.getElementById('start').innerHTML = instruction.start ? instruction.start : 'pending';
-						document.getElementById('end').innerHTML = instruction.end ? instruction.end : 'pending';
+						infoBoard(instruction);
 
 						leftDiagonalSpots.call(this, instruction, nextInstruction, prevInstruction);
+						rightDiagonalSpots.call(this, instruction, nextInstruction, prevInstruction);
 
 					  queens.call(this, instruction, nextInstruction);
 

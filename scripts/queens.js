@@ -18,8 +18,12 @@ module.exports = function(instruction, nextInstruction) {
 
     queensOnBoard
       .enter()
-        .append('circle')
-          .attr('class', 'queen')
-          .attr('cy', data => (data.level - 1) * 100 + 50)
-          .attr('cx', data => data.bit * 100 + 50);
+      .append('g')
+      .append('image')
+        .attr('xlink:href','./assets/queen.png')
+        .attr('class', 'queen')
+        .attr('height', '100')
+        .attr('width', '100')
+        .attr('y', data => (data.level - 1) * 100)
+        .attr('x', data => data.bit * 100);
 }

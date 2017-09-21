@@ -72,6 +72,7 @@ const queens = __webpack_require__(2);
 const leftDiagonalSpots = __webpack_require__(3);
 const rightDiagonalSpots = __webpack_require__(4);
 const infoBoard = __webpack_require__(5);
+const columnSpots = __webpack_require__(6);
 
 ((global) => {
 
@@ -144,6 +145,7 @@ const infoBoard = __webpack_require__(5);
 
 						infoBoard(instruction);
 
+						columnSpots.call(this, instruction, nextInstruction, prevInstruction)
 						leftDiagonalSpots.call(this, instruction, nextInstruction, prevInstruction);
 						rightDiagonalSpots.call(this, instruction, nextInstruction, prevInstruction);
 
@@ -346,9 +348,6 @@ module.exports = function(instruction, nextInstruction, prevInstruction) {
 /* 4 */
 /***/ (function(module, exports) {
 
-// TODO!!!
-// I am working on this!!!
-
 module.exports = function(instruction, nextInstruction, prevInstruction) {
   this.board.selectAll('.rdSpots')
     .data([])
@@ -395,6 +394,43 @@ module.exports = function(instruction) {
   document.getElementById('bit').innerHTML = instruction.bit ? instruction.bit.toString(2) : 'pending';
   document.getElementById('start').innerHTML = instruction.start ? instruction.start : 'pending';
   document.getElementById('end').innerHTML = instruction.end ? instruction.end : 'pending';
+}
+
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports) {
+
+// TODO!!!
+// I am working on this!!!
+
+module.exports = function(instruction, nextInstruction, prevInstruction) {
+  this.board.selectAll('.clSpots')
+    .data([])
+      .exit()
+      .remove();
+
+  let data = instruction.end.col;
+
+  if (nextInstruction.level > instruction.level && instruction.end) {
+    data = instruction.end.col.reverse();
+  }
+
+  let enter = this.leftDiagonalSpots
+    .data(data)
+      .enter()
+      .append('circle');
+
+  enter
+        .attr('class', d => d === '1' ? 'clSpots' : 'none')
+        .attr('cx', (d, i) => i * 100 + 50)
+        .attr('cy', (instruction.level - 1) * 100 + 50);
+
+  enter
+      .transition()
+      .duration(1000)
+        .attr('cx', (d, i) =>  i * 100 + 50)
+        .attr('cy', instruction.level < nextInstruction.level ? instruction.level * 100 + 50 : (instruction.level - 2) * 100 + 50);
 }
 
 

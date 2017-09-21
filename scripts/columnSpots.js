@@ -1,13 +1,16 @@
+// TODO!!!
+// I am working on this!!!
+
 module.exports = function(instruction, nextInstruction, prevInstruction) {
-  this.board.selectAll('.rdSpots')
+  this.board.selectAll('.clSpots')
     .data([])
       .exit()
       .remove();
 
-  let data = instruction.end.ld;
+  let data = instruction.end.col;
 
   if (nextInstruction.level > instruction.level && instruction.end) {
-    data = instruction.end.ld.reverse();
+    data = instruction.end.col.reverse();
   }
 
   let enter = this.leftDiagonalSpots
@@ -16,13 +19,13 @@ module.exports = function(instruction, nextInstruction, prevInstruction) {
       .append('circle');
 
   enter
-        .attr('class', d => d === '1' ? 'rdSpots' : 'none')
-        .attr('cx', (d, i) => instruction.level < nextInstruction.level ? i * 100 + 50 : (i - 1) * 100 + 50)
+        .attr('class', d => d === '1' ? 'clSpots' : 'none')
+        .attr('cx', (d, i) => i * 100 + 50)
         .attr('cy', (instruction.level - 1) * 100 + 50);
 
   enter
       .transition()
       .duration(1000)
-        .attr('cx', (d, i) => instruction.level < nextInstruction.level ? (i - 1) * 100 + 50 : i * 100 + 50)
+        .attr('cx', (d, i) =>  i * 100 + 50)
         .attr('cy', instruction.level < nextInstruction.level ? instruction.level * 100 + 50 : (instruction.level - 2) * 100 + 50);
 }

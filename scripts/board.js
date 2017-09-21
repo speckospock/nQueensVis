@@ -3,6 +3,7 @@ const queens = require('./queens');
 const leftDiagonalSpots = require('./leftDiagonalSpots');
 const rightDiagonalSpots = require('./rightDiagonalSpots');
 const infoBoard = require('./infoBoard');
+const columnSpots = require('./columnSpots');
 
 ((global) => {
 
@@ -75,6 +76,7 @@ const infoBoard = require('./infoBoard');
 
 						infoBoard(instruction);
 
+						columnSpots.call(this, instruction, nextInstruction, prevInstruction)
 						leftDiagonalSpots.call(this, instruction, nextInstruction, prevInstruction);
 						rightDiagonalSpots.call(this, instruction, nextInstruction, prevInstruction);
 

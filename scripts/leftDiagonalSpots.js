@@ -22,7 +22,8 @@ module.exports = function(instruction, nextInstruction, prevInstruction) {
 
   enter
       .transition()
-      .duration(1000)
+      .delay(500)
+      .duration(500)
         .attr('cx', (d, i) => instruction.level < nextInstruction.level ? (i + 1) * 100 + 50 : i * 100 + 50)
         .attr('cy', instruction.level < nextInstruction.level ? instruction.level * 100 + 50 : (instruction.level - 2) * 100 + 50);
 }

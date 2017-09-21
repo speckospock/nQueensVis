@@ -4,11 +4,9 @@ module.exports = function(instruction, nextInstruction) {
     }
 
     this.queens = this.queens.filter(q => q.level < nextInstruction.level );;
-    // debugger
+
   	const queensOnBoard = this.board.selectAll('.queen')
   		.data(this.queens);
-
-    // this.board.selectAll('.none').data([]).exit().remove();
 
     queensOnBoard
       .exit()
@@ -25,5 +23,5 @@ module.exports = function(instruction, nextInstruction) {
         .attr('height', '100')
         .attr('width', '100')
         .attr('y', data => (data.level - 1) * 100)
-        .attr('x', data => data.bit * 100);
+        .attr('x', data => data.bit * 100 );
 }

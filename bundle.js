@@ -289,11 +289,9 @@ module.exports = function(instruction, nextInstruction) {
     }
 
     this.queens = this.queens.filter(q => q.level < nextInstruction.level );;
-    // debugger
+
   	const queensOnBoard = this.board.selectAll('.queen')
   		.data(this.queens);
-
-    // this.board.selectAll('.none').data([]).exit().remove();
 
     queensOnBoard
       .exit()
@@ -310,7 +308,7 @@ module.exports = function(instruction, nextInstruction) {
         .attr('height', '100')
         .attr('width', '100')
         .attr('y', data => (data.level - 1) * 100)
-        .attr('x', data => data.bit * 100);
+        .attr('x', data => data.bit * 100 );
 }
 
 
@@ -342,7 +340,8 @@ module.exports = function(instruction, nextInstruction, prevInstruction) {
 
   enter
       .transition()
-      .duration(1000)
+      .delay(500)
+      .duration(500)
         .attr('cx', (d, i) => instruction.level < nextInstruction.level ? (i + 1) * 100 + 50 : i * 100 + 50)
         .attr('cy', instruction.level < nextInstruction.level ? instruction.level * 100 + 50 : (instruction.level - 2) * 100 + 50);
 }
@@ -376,7 +375,8 @@ module.exports = function(instruction, nextInstruction, prevInstruction) {
 
   enter
       .transition()
-      .duration(1000)
+      .delay(1000)
+      .duration(500)
         .attr('cx', (d, i) => instruction.level < nextInstruction.level ? (i - 1) * 100 + 50 : i * 100 + 50)
         .attr('cy', instruction.level < nextInstruction.level ? instruction.level * 100 + 50 : (instruction.level - 2) * 100 + 50);
 }
@@ -432,7 +432,7 @@ module.exports = function(instruction, nextInstruction, prevInstruction) {
 
   enter
       .transition()
-      .duration(1000)
+      .duration(500)
         .attr('cx', (d, i) =>  i * 100 + 50)
         .attr('cy', instruction.level < nextInstruction.level ? instruction.level * 100 + 50 : (instruction.level - 2) * 100 + 50);
 }

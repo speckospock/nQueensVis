@@ -368,12 +368,12 @@ module.exports = function(instruction, nextInstruction, prevInstruction) {
 
   enter
         .attr('class', d => d === '1' ? 'rdSpots' : 'none')
-        .attr('cx', (d, i) => instruction.level < nextInstruction.level ? i * 100 + 50 : (i + 1) * 100 + 50)
+        .attr('cx', (d, i) => instruction.level < nextInstruction.level ? i * 100 + 50 : (i - 1) * 100 + 50)
         .attr('cy', (instruction.level - 1) * 100 + 50);
 
   enter
       .transition()
-      .duration(1500)
+      .duration(1000)
         .attr('cx', (d, i) => instruction.level < nextInstruction.level ? (i - 1) * 100 + 50 : i * 100 + 50)
         .attr('cy', instruction.level < nextInstruction.level ? instruction.level * 100 + 50 : (instruction.level - 2) * 100 + 50);
 }

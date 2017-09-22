@@ -36,9 +36,28 @@
   opacity: 1;
 }
 
-.toolbar {
+.toolBar {
   background: grey;
+  margin-top: 5px;
+  text-align: center;
 }
+
+.mainView {
+  padding: 12px;
+}
+
+.sideBar, .toolBar {
+  width: 300px;
+  font-family: 'Arimo', sans-serif;
+}
+
+.titleBar {
+  padding-left: 15px;
+  height: 75px;
+  font-family: 'Zilla Slab', serif;
+  font-style: 'italic';
+}
+
 
 .column {
 	stroke: black;

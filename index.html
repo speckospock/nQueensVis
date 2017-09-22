@@ -6,26 +6,31 @@
 
 		<script src="./node_modules/d3/build/d3.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Arimo|Zilla+Slab" rel="stylesheet">
 		<script src="./bundle.js"></script>
 	</head>
 	<body>
-    <div class="container mainView">
-      <div class="row">
-
-      </div>
-      <div class="row">
-        <div class="col-lg-4">
-          <input id='num' type='number' min='1' max='8'>
-          <button id='startButton'>Start Game</button>
-          <div class="toolBar">
-        		<div id="alert"></div>
-        		<div id="start"></div>
-        		<div id="end"></div>
-        		<div id="bit"></div>
-          </div>
+    <div class="container-fluid total">
+      <div class="container-fluid mainView">
+        <div class="row titleBar">
+          <span class="titleText">N-Queens Visualizer</span>
         </div>
-        <div class="col-lg-8">
-      		<div id='board'></div>
+        <div class="row">
+          <div class="col sideBar">
+            <div class="inputBar">
+              <input id='num' type='number' min='1' max='8'>
+              <button id='startButton'>Start Game</button>
+            </div>
+            <div class="toolBar">
+          		<div id="alert"></div>
+          		<div id="start"></div>
+          		<div id="end"></div>
+          		<div id="bit"></div>
+            </div>
+          </div>
+          <div class="col">
+        		<div id='board'></div>
+          </div>
         </div>
       </div>
     </div>

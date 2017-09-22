@@ -4,16 +4,19 @@ const leftDiagonalSpots = require('./leftDiagonalSpots');
 const rightDiagonalSpots = require('./rightDiagonalSpots');
 const infoBoard = require('./infoBoard');
 const columnSpots = require('./columnSpots');
+const startBar = require('./select');
 
 ((global) => {
 
 	document.addEventListener("DOMContentLoaded", function(e) {
+      startBar();
 
 	   	class NQueenVis {
 	   		constructor(n){
 					this.n = n;
 					this.playBook = countNQueensSolutions(n);
 	   			this.board = d3.select('#board')
+            .html('')
 	   				.append('svg')
 	   					.attr('class', 'board')
 	   					.attr('width', 100 * n)

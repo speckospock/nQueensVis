@@ -73,16 +73,19 @@ const leftDiagonalSpots = __webpack_require__(3);
 const rightDiagonalSpots = __webpack_require__(4);
 const infoBoard = __webpack_require__(5);
 const columnSpots = __webpack_require__(6);
+const startBar = __webpack_require__(7);
 
 ((global) => {
 
 	document.addEventListener("DOMContentLoaded", function(e) {
+      startBar();
 
 	   	class NQueenVis {
 	   		constructor(n){
 					this.n = n;
 					this.playBook = countNQueensSolutions(n);
 	   			this.board = d3.select('#board')
+            .html('')
 	   				.append('svg')
 	   					.attr('class', 'board')
 	   					.attr('width', 100 * n)
@@ -435,6 +438,21 @@ module.exports = function(instruction, nextInstruction, prevInstruction) {
       .duration(500)
         .attr('cx', (d, i) =>  i * 100 + 50)
         .attr('cy', instruction.level < nextInstruction.level ? instruction.level * 100 + 50 : (instruction.level - 2) * 100 + 50);
+}
+
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports) {
+
+module.exports = function() {
+
+  d3.select("#startButton").on('click', () => {
+    let boardSize = d3.select("#num").node().value;
+    let newGame = new NQueenVis(boardSize);
+    debugger;
+    newGame.play();
+  });
 }
 
 

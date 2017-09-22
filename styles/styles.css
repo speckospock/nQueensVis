@@ -7,6 +7,10 @@
 	color: red;
 }
 
+.body {
+  background: #f4f4f4;
+}
+
 .board {
 	background: #eace9f;
 }
@@ -36,14 +40,20 @@
   opacity: 1;
 }
 
-.toolBar {
-  background: grey;
-  margin-top: 5px;
-  text-align: center;
-}
-
 .mainView {
   padding: 12px;
+}
+
+.sideBar {
+  min-height: 400px;
+  max-width: 400px;
+}
+
+.toolBar {
+  background: #373737;
+  margin-top: 5%;
+  text-align: center;
+  color: white;
 }
 
 .sideBar, .toolBar {
@@ -51,13 +61,30 @@
   font-family: 'Arimo', sans-serif;
 }
 
+#num {
+  margin-right: 2%;
+}
+
+#nVal {
+  margin-left: 2%;
+}
+
+#startButton {
+  width: 40%;
+}
+
+.inputBar, .toolBar {
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+
 .titleBar {
   padding-left: 15px;
   height: 75px;
   font-family: 'Zilla Slab', serif;
   font-style: 'italic';
 }
-
 
 .column {
 	stroke: black;

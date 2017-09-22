@@ -5,16 +5,31 @@
 		<link rel="stylesheet" href="./styles/styles.css">
 
 		<script src="./node_modules/d3/build/d3.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
 		<script src="./bundle.js"></script>
 	</head>
 	<body>
-    <input id='num' type='number' min='0' max='8'>
-    <button id='startButton'>Start Game</button>
-		<div id='board'></div>
-		<div id="alert"></div>
-		<div id="start"></div>
-		<div id="end"></div>
-		<div id="bit"></div>
+    <div class="container mainView">
+      <div class="row">
+
+      </div>
+      <div class="row">
+        <div class="col-lg-4">
+          <input id='num' type='number' min='1' max='8'>
+          <button id='startButton'>Start Game</button>
+          <div class="toolBar">
+        		<div id="alert"></div>
+        		<div id="start"></div>
+        		<div id="end"></div>
+        		<div id="bit"></div>
+          </div>
+        </div>
+        <div class="col-lg-8">
+      		<div id='board'></div>
+        </div>
+      </div>
+    </div>
+  </div>
 
 	</body>
 </html>

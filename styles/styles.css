@@ -28,6 +28,18 @@
 	height: 100;
 }
 
+.row:not(.leftDiagonal) {
+  opacity: 1;
+}
+
+.row:not(.rightDiagonal) {
+  opacity: 1;
+}
+
+.toolbar {
+  background: grey;
+}
+
 .column {
 	stroke: black;
 	fill: green;

@@ -1,7 +1,7 @@
 {
   "name": "nqeens",
   "version": "1.0.0",
-  "description": "visulaizaion of bitwise n queens ",
+  "description": "visualizaion of bitwise n queens ",
   "main": "index.js",
   "scripts": {
     "start": "webpack -w",
